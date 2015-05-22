@@ -28,7 +28,17 @@ class InfosController extends Controller
 	    ->getQuery();
 	
         $infos = $query->getResult(Query::HYDRATE_ARRAY);
-       
+		
+		$query2 = $repository->createQueryBuilder('i')
+		->select('i.infoid')
+	    ->where("i.userid = :userid and i.new=1")
+		->setParameter('userid', $userid)
+	    ->getQuery();
+	
+        $infos_count = $query2->getResult(Query::HYDRATE_ARRAY);
+		$count_unread = count($infos_count);
+		$infos['unread'] = $count_unread;
+		
         $this->get("app.arrays")->utf8_encode_deep($infos);
         $response = new Response(json_encode($infos));
         $response->headers->set('Content-Type', 'application/json');
