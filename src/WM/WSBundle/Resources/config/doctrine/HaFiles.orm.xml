@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="WM\WSBundle\Entity\HaFiles" table="ha_files">
+    <id name="fileid" type="integer" column="fileID">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="fileref" type="string" column="fileRef" length="100" nullable="true"/>
+    <field name="filename" type="string" column="filename" length="100" nullable="true"/>
+    <field name="datecreated" type="datetime" column="dateCreated" nullable="false"/>
+    <field name="datemodified" type="datetime" column="dateModified" nullable="false"/>
+    <field name="folderid" type="integer" column="folderID" nullable="false"/>
+    <field name="userid" type="integer" column="userID" nullable="true"/>
+    <field name="deleted" type="boolean" column="deleted" nullable="false"/>
+    <field name="filesize" type="integer" column="filesize" nullable="false"/>
+    <field name="downloads" type="integer" column="downloads" nullable="false"/>
+    <field name="siteid" type="integer" column="siteID" nullable="true"/>
+  </entity>
+</doctrine-mapping>

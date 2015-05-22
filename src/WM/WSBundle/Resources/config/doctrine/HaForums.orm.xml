@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="WM\WSBundle\Entity\HaForums" table="ha_forums">
+    <id name="forumid" type="integer" column="forumID">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="forumname" type="string" column="forumName" length="100" nullable="true"/>
+    <field name="catid" type="integer" column="catID" nullable="true"/>
+    <field name="datecreated" type="datetime" column="dateCreated" nullable="false"/>
+    <field name="datemodified" type="datetime" column="dateModified" nullable="false"/>
+    <field name="description" type="text" column="description" nullable="true"/>
+    <field name="topics" type="integer" column="topics" nullable="false"/>
+    <field name="replies" type="integer" column="replies" nullable="false"/>
+    <field name="lastpostid" type="integer" column="lastPostID" nullable="true"/>
+    <field name="private" type="boolean" column="private" nullable="false"/>
+    <field name="groupid" type="integer" column="groupID" nullable="true"/>
+    <field name="active" type="boolean" column="active" nullable="false"/>
+    <field name="deleted" type="boolean" column="deleted" nullable="false"/>
+    <field name="siteid" type="integer" column="siteID" nullable="true"/>
+    <field name="default" type="boolean" column="default" nullable="false"/>
+  </entity>
+</doctrine-mapping>

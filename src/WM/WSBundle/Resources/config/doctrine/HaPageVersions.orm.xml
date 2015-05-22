@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="WM\WSBundle\Entity\HaPageVersions" table="ha_page_versions">
+    <id name="versionid" type="integer" column="versionID">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="pageid" type="integer" column="pageID" nullable="true"/>
+    <field name="datecreated" type="datetime" column="dateCreated" nullable="false"/>
+    <field name="userid" type="integer" column="userID" nullable="true"/>
+    <field name="published" type="boolean" column="published" nullable="false"/>
+    <field name="siteid" type="integer" column="siteID" nullable="true"/>
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="WM\WSBundle\Entity\HaPages" table="ha_pages">
+    <indexes>
+      <index name="uri" columns="uri"/>
+      <index name="active" columns="active"/>
+    </indexes>
+    <id name="pageid" type="integer" column="pageID">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="versionid" type="integer" column="versionID" nullable="false"/>
+    <field name="pagename" type="string" column="pageName" length="100" nullable="true"/>
+    <field name="datecreated" type="datetime" column="dateCreated" nullable="false"/>
+    <field name="datemodified" type="datetime" column="dateModified" nullable="false"/>
+    <field name="datepublished" type="datetime" column="datePublished" nullable="false"/>
+    <field name="title" type="string" column="title" length="100" nullable="false"/>
+    <field name="active" type="boolean" column="active" nullable="false"/>
+    <field name="uri" type="string" column="uri" length="100" nullable="false"/>
+    <field name="draftid" type="integer" column="draftID" nullable="true"/>
+    <field name="templateid" type="integer" column="templateID" nullable="true"/>
+    <field name="parentid" type="integer" column="parentID" nullable="false"/>
+    <field name="pageorder" type="integer" column="pageOrder" nullable="false"/>
+    <field name="keywords" type="string" column="keywords" length="255" nullable="true"/>
+    <field name="description" type="string" column="description" length="255" nullable="true"/>
+    <field name="redirect" type="string" column="redirect" length="255" nullable="true"/>
+    <field name="userid" type="integer" column="userID" nullable="true"/>
+    <field name="groupid" type="integer" column="groupID" nullable="true"/>
+    <field name="navigation" type="boolean" column="navigation" nullable="false"/>
+    <field name="views" type="integer" column="views" nullable="false"/>
+    <field name="deleted" type="boolean" column="deleted" nullable="false"/>
+    <field name="siteid" type="integer" column="siteID" nullable="false"/>
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,160 @@
+<?php
+
+namespace WM\WSBundle\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
+use Doctrine\ORM\Query;
+use AppBundle\Utils;
+use WM\WSBundle\Entity\HaUsers;
+
+class UsersController extends Controller
+{
+    public function indexAction()
+    {
+        
+        $repository = $this->getDoctrine()
+        ->getRepository('WMWSBundle:HaUsers');
+    
+	
+	    $query = $repository->createQueryBuilder('u')
+	    //->where("ws.wwwtitle = :type")
+	    //->setParameter('type', $type)
+	   // ->orderBy('p.price', 'ASC')
+	    ->getQuery();
+	
+        $users = $query->getResult(Query::HYDRATE_ARRAY);
+       //print_r($ws);
+       
+       $this->get("app.arrays")->utf8_encode_deep($users);
+       //print_r($ws_uft8);
+        $response = new Response(json_encode($users));
+        $response->headers->set('Content-Type', 'application/json');
+        
+        return $response;
+        
+    }
+    
+    public function loginAction($email, $password)
+    {
+        
+        $repository = $this->getDoctrine()
+        ->getRepository('WMWSBundle:HaUsers');
+    
+	
+	    $query = $repository->createQueryBuilder('u')
+	    ->where("u.email = :email and u.password = :password")
+	    ->setParameter('email', $email)
+	     ->setParameter('password', $password)
+	   // ->orderBy('p.price', 'ASC')
+	    ->getQuery();
+	
+        $users = $query->getResult(Query::HYDRATE_ARRAY);
+	$this->get("app.arrays")->utf8_encode_deep($users);
+       //print_r($ws);
+       
+       if(empty($users)){
+	$users = 0;
+       }
+       //print_r($ws_uft8);
+        $response = new Response(json_encode($users));
+        $response->headers->set('Content-Type', 'application/json');
+        
+        return $response;
+        
+    }
+    public function registerAction()
+    {
+	
+        //print_r($ws_uft8);
+	$post = $_POST;
+	
+	$resp['error'] = array();
+        if( empty($post['password']) || empty($post['email'])){
+	 $resp['error'][] = 'Hasło i Email są obowiązkowe';
+        }else if(empty($post['email']) || !strstr($post['email'], '@') || !strstr($post['email'], '.'))
+        {
+	    $resp['error'][] = 'Niepoprawny adres email';
+        }
+        if((!empty($post['password']) && !empty($post['password2'])) && $post['password'] != $post['password2']){
+	    $resp['error'][] = 'Hasła nie są identyczne';
+        }
+	if(empty($resp['error'])){
+	    $user = new HaUsers();
+	    $user->setEmail($post['email']);
+	    $user->setPassword(md5($post['password']));
+	    $email_parts = explode('@',$post['email']);
+	    
+	    if( empty($post['displayname']))
+	    	$displayname = $email_parts[0];
+	    else
+	    	$displayname = $post['displayname'];
+	    	
+	    $user->setDisplayname($displayname);
+	    $user->setUsername($displayname);
+	    $user->setGroupid(0);
+	    $user->setSubscription("Y");
+	    $user->setSubscribed(0);
+	    $user->setPlan(0);
+	    $user->setCurrency('USD');
+	    $user->setBio('');
+	    $user->setLanguage('polski');
+	    $user->setPosts(0);
+	    $user->setKudos(0);
+	    $user->setNotifications(1);
+	    $user->setNotificationsPromo(1);
+	    $user->setNotificationsBlog(1);
+	    $user->setNotificationsShop(1);
+	    $user->setPrivacy('V');
+	    $user->setCustom1('');
+	    $user->setCustom2('');
+	    $user->setCustom3('');
+	    $user->setCustom4('');
+	    $user->setActive(1);
+	    //$user->set();
+	    //$user->set();
+	    
+	
+	    $em = $this->getDoctrine()->getManager();
+	
+	    $em->persist($user);
+	    $em->flush();
+	    $resp['success'][] = 'Konto utworzono pomyślnie';
+	}
+	//$resp = $post;
+	$this->get("app.arrays")->utf8_encode_deep($resp);
+        $response = new Response(json_encode($resp));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+        
+    }
+	
+	
+	public function avatarAction()
+    {
+	
+        $post = $_POST;
+	
+		$resp['error'] = array();
+        if( empty($post['base64']) || empty($_POST['file']) ){
+			$resp['error'][] = 'Nie przesłano pliku';
+        }
+		if(empty($resp['error'])){
+	    $file = '../../wedkarstwo.mobi/static/tmp/'.$_POST['file'];
+		$base64 = $_POST['base64'];
+			//$user->setActive(1);
+	    
+			//$em = $this->getDoctrine()->getManager();
+			//$em->persist($user);
+			//$em->flush();
+			$this->get("app.files")->base64_to_jpeg($base64, $file);
+			$resp['success'][] = 'Zapisano plik';
+		}
+	//$resp = $post;
+	$this->get("app.arrays")->utf8_encode_deep($resp);
+        $response = new Response(json_encode($resp));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+        
+    }
+}

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="WM\WSBundle\Entity\HaUsers" table="ha_users">
+    <indexes>
+      <index name="emailindex" columns="email"/>
+    </indexes>
+    <id name="userid" type="integer" column="userID">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="username" type="string" column="username" length="100" nullable="false"/>
+    <field name="password" type="string" column="password" length="32" nullable="true"/>
+    <field name="groupid" type="integer" column="groupID" nullable="false"/>
+    <field name="email" type="string" column="email" length="100" nullable="true"/>
+    <field name="subscription" type="string" column="subscription" length="100" nullable="false"/>
+    <field name="subscribed" type="boolean" column="subscribed" nullable="false"/>
+    <field name="plan" type="integer" column="plan" nullable="false"/>
+    <field name="bounced" type="boolean" column="bounced" nullable="true"/>
+    <field name="datecreated" type="datetime" column="dateCreated" nullable="false"/>
+    <field name="datemodified" type="datetime" column="dateModified" nullable="false"/>
+    <field name="displayname" type="string" column="displayName" length="100" nullable="true"/>
+    <field name="firstname" type="string" column="firstName" length="50" nullable="true"/>
+    <field name="lastname" type="string" column="lastName" length="50" nullable="true"/>
+    <field name="address1" type="string" column="address1" length="100" nullable="true"/>
+    <field name="address2" type="string" column="address2" length="100" nullable="true"/>
+    <field name="address3" type="string" column="address3" length="100" nullable="true"/>
+    <field name="city" type="string" column="city" length="100" nullable="true"/>
+    <field name="state" type="string" column="state" length="50" nullable="true"/>
+    <field name="postcode" type="string" column="postcode" length="8" nullable="true"/>
+    <field name="country" type="string" column="country" length="100" nullable="true"/>
+    <field name="currency" type="string" column="currency" length="4" nullable="false"/>
+    <field name="billingaddress1" type="string" column="billingAddress1" length="100" nullable="true"/>
+    <field name="billingaddress2" type="string" column="billingAddress2" length="100" nullable="true"/>
+    <field name="billingaddress3" type="string" column="billingAddress3" length="100" nullable="true"/>
+    <field name="billingcity" type="string" column="billingCity" length="100" nullable="true"/>
+    <field name="billingstate" type="string" column="billingState" length="50" nullable="true"/>
+    <field name="billingpostcode" type="string" column="billingPostcode" length="8" nullable="true"/>
+    <field name="billingcountry" type="string" column="billingCountry" length="100" nullable="true"/>
+    <field name="phone" type="string" column="phone" length="20" nullable="true"/>
+    <field name="avatar" type="string" column="avatar" length="50" nullable="true"/>
+    <field name="signature" type="text" column="signature" nullable="true"/>
+    <field name="bio" type="text" column="bio" nullable="false"/>
+    <field name="companyname" type="string" column="companyName" length="100" nullable="true"/>
+    <field name="companyemail" type="string" column="companyEmail" length="100" nullable="true"/>
+    <field name="companywebsite" type="string" column="companyWebsite" length="100" nullable="true"/>
+    <field name="companydescription" type="text" column="companyDescription" nullable="true"/>
+    <field name="companylogo" type="string" column="companyLogo" length="50" nullable="true"/>
+    <field name="language" type="string" column="language" length="50" nullable="false"/>
+    <field name="posts" type="integer" column="posts" nullable="false"/>
+    <field name="kudos" type="decimal" column="kudos" precision="10" scale="2" nullable="false"/>
+    <field name="notifications" type="boolean" column="notifications" nullable="false"/>
+    <field name="notificationsPromo" type="boolean" column="notifications_promo" nullable="false"/>
+    <field name="notificationsBlog" type="boolean" column="notifications_blog" nullable="false"/>
+    <field name="notificationsShop" type="boolean" column="notifications_shop" nullable="false"/>
+    <field name="privacy" type="string" column="privacy" length="100" nullable="false"/>
+    <field name="resetkey" type="string" column="resetkey" length="32" nullable="true"/>
+    <field name="lastlogin" type="datetime" column="lastLogin" nullable="false"/>
+    <field name="lastactivity" type="datetime" column="lastActivity" nullable="false"/>
+    <field name="custom1" type="integer" column="custom1" nullable="false"/>
+    <field name="custom2" type="string" column="custom2" length="250" nullable="true"/>
+    <field name="custom3" type="string" column="custom3" length="250" nullable="true"/>
+    <field name="custom4" type="text" column="custom4" nullable="true"/>
+    <field name="active" type="boolean" column="active" nullable="false"/>
+    <field name="siteid" type="integer" column="siteID" nullable="true"/>
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="WM\WSBundle\Entity\HaImages" table="ha_images">
+    <id name="imageid" type="integer" column="imageID">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="imageref" type="string" column="imageRef" length="100" nullable="true"/>
+    <field name="filename" type="string" column="filename" length="100" nullable="true"/>
+    <field name="datecreated" type="datetime" column="dateCreated" nullable="false"/>
+    <field name="datemodified" type="datetime" column="dateModified" nullable="false"/>
+    <field name="imagename" type="string" column="imageName" length="100" nullable="true"/>
+    <field name="folderid" type="integer" column="folderID" nullable="false"/>
+    <field name="groupid" type="integer" column="groupID" nullable="false"/>
+    <field name="userid" type="integer" column="userID" nullable="true"/>
+    <field name="class" type="string" column="class" length="100" nullable="true"/>
+    <field name="filesize" type="integer" column="filesize" nullable="false"/>
+    <field name="maxsize" type="integer" column="maxsize" nullable="true"/>
+    <field name="deleted" type="boolean" column="deleted" nullable="false"/>
+    <field name="siteid" type="integer" column="siteID" nullable="true"/>
+  </entity>
+</doctrine-mapping>

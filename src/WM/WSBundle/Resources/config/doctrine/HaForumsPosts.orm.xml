@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="WM\WSBundle\Entity\HaForumsPosts" table="ha_forums_posts">
+    <id name="postid" type="integer" column="postID">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="topicid" type="integer" column="topicID" nullable="false"/>
+    <field name="body" type="text" column="body" nullable="true"/>
+    <field name="datecreated" type="datetime" column="dateCreated" nullable="false"/>
+    <field name="datemodified" type="datetime" column="dateModified" nullable="false"/>
+    <field name="userid" type="integer" column="userID" nullable="true"/>
+    <field name="deleted" type="boolean" column="deleted" nullable="false"/>
+    <field name="siteid" type="integer" column="siteID" nullable="true"/>
+    <field name="image" type="string" column="image" length="245" nullable="false"/>
+    <field name="countlikes" type="integer" column="countLikes" nullable="false"/>
+    <field name="tags" type="string" column="tags" length="245" nullable="true"/>
+    <field name="mobile" type="boolean" column="mobile" nullable="false"/>
+    <field name="tmpusername" type="string" column="tmpUserName" length="245" nullable="true"/>
+  </entity>
+</doctrine-mapping>

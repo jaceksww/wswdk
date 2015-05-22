@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="WM\WSBundle\Entity\HaWs" table="ha_ws">
+    <id name="wwwid" type="integer" column="wwwID">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="wwwtitle" type="string" column="wwwTitle" length="100" nullable="true"/>
+    <field name="datecreated" type="datetime" column="dateCreated" nullable="false"/>
+    <field name="datemodified" type="datetime" column="dateModified" nullable="false"/>
+    <field name="time" type="string" column="time" length="100" nullable="true"/>
+    <field name="description" type="text" column="description" nullable="true"/>
+    <field name="description2" type="text" column="description2" nullable="true"/>
+    <field name="custom1" type="string" column="custom1" length="245" nullable="true"/>
+    <field name="custom2" type="string" column="custom2" length="245" nullable="true"/>
+    <field name="custom3" type="string" column="custom3" length="245" nullable="true"/>
+    <field name="excerpt" type="text" column="excerpt" nullable="true"/>
+    <field name="userid" type="integer" column="userID" nullable="true"/>
+    <field name="groupid" type="integer" column="groupID" nullable="false"/>
+    <field name="tags" type="string" column="tags" length="250" nullable="true"/>
+    <field name="published" type="boolean" column="published" nullable="false"/>
+    <field name="featured" type="boolean" column="featured" nullable="true"/>
+    <field name="deleted" type="boolean" column="deleted" nullable="true"/>
+    <field name="siteid" type="integer" column="siteID" nullable="true"/>
+    <field name="wwwdate" type="datetime" column="wwwDate" nullable="false"/>
+    <field name="folderid" type="integer" column="folderID" nullable="false"/>
+    <field name="categoryId" type="integer" column="category_id" nullable="false"/>
+    <field name="isPoll" type="integer" column="is_poll" nullable="false"/>
+    <field name="mainimage" type="string" column="mainImage" length="245" nullable="false"/>
+    <field name="countcomments" type="integer" column="countComments" nullable="false"/>
+    <field name="lastcomment" type="datetime" column="lastComment" nullable="false"/>
+    <field name="countimages" type="integer" column="countImages" nullable="false"/>
+    <field name="gallerycat" type="integer" column="galleryCat" nullable="true"/>
+    <field name="countlikes" type="integer" column="countLikes" nullable="true"/>
+    <field name="lat" type="string" column="lat" length="245" nullable="true"/>
+    <field name="lng" type="string" column="lng" length="245" nullable="true"/>
+    <field name="mobile" type="boolean" column="mobile" nullable="false"/>
+    <field name="parentid" type="integer" column="parentID" nullable="true"/>
+  </entity>
+</doctrine-mapping>

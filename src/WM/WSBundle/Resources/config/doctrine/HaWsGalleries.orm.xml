@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="WM\WSBundle\Entity\HaWsGalleries" table="ha_ws_galleries">
+    <id name="galleryid" type="integer" column="galleryID">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="userid" type="integer" column="userID" nullable="false"/>
+    <field name="galleryname" type="string" column="galleryName" length="245" nullable="false"/>
+    <field name="datecreated" type="datetime" column="dateCreated" nullable="false"/>
+    <field name="ordering" type="boolean" column="ordering" nullable="false"/>
+    <field name="banners" type="boolean" column="banners" nullable="false"/>
+  </entity>
+</doctrine-mapping>

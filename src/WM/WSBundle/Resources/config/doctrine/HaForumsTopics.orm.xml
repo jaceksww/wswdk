@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="WM\WSBundle\Entity\HaForumsTopics" table="ha_forums_topics">
+    <id name="topicid" type="integer" column="topicID">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="forumid" type="integer" column="forumID" nullable="false"/>
+    <field name="topictitle" type="string" column="topicTitle" length="150" nullable="true"/>
+    <field name="datecreated" type="datetime" column="dateCreated" nullable="false"/>
+    <field name="datemodified" type="datetime" column="dateModified" nullable="false"/>
+    <field name="replies" type="integer" column="replies" nullable="false"/>
+    <field name="views" type="integer" column="views" nullable="false"/>
+    <field name="userid" type="integer" column="userID" nullable="true"/>
+    <field name="lastpostid" type="integer" column="lastPostID" nullable="true"/>
+    <field name="lastpostuserid" type="integer" column="lastPostUserID" nullable="false"/>
+    <field name="sticky" type="boolean" column="sticky" nullable="false"/>
+    <field name="locked" type="boolean" column="locked" nullable="false"/>
+    <field name="deleted" type="boolean" column="deleted" nullable="false"/>
+    <field name="siteid" type="integer" column="siteID" nullable="true"/>
+    <field name="tags" type="text" column="tags" nullable="false"/>
+    <field name="mobile" type="boolean" column="mobile" nullable="false"/>
+    <field name="tmpusername" type="string" column="tmpUserName" length="245" nullable="true"/>
+  </entity>
+</doctrine-mapping>

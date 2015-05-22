@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="WM\WSBundle\Entity\HaInfos" table="ha_infos">
+    <id name="infoid" type="integer" column="infoID">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="datecreated" type="datetime" column="dateCreated" nullable="false"/>
+    <field name="content" type="text" column="content" nullable="true"/>
+    <field name="url" type="string" column="url" length="245" nullable="true"/>
+    <field name="type" type="string" column="type" length="100" nullable="true"/>
+    <field name="new" type="integer" column="new" nullable="false"/>
+    <field name="userid" type="integer" column="userID" nullable="false"/>
+    <field name="authordisplayname" type="string" column="authorDisplayName" length="245" nullable="false"/>
+    <field name="authoravatar" type="string" column="authorAvatar" length="245" nullable="false"/>
+    <field name="authoruserid" type="integer" column="authorUserID" nullable="false"/>
+  </entity>
+</doctrine-mapping>

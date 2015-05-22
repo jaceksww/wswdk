@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="WM\WSBundle\Entity\HaWsComments" table="ha_ws_comments">
+    <id name="commentid" type="integer" column="commentID">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="wwwid" type="integer" column="wwwID" nullable="false"/>
+    <field name="datecreated" type="datetime" column="dateCreated" nullable="true"/>
+    <field name="comment" type="text" column="comment" nullable="true"/>
+    <field name="fullname" type="string" column="fullName" length="100" nullable="true"/>
+    <field name="email" type="string" column="email" length="100" nullable="true"/>
+    <field name="website" type="string" column="website" length="100" nullable="true"/>
+    <field name="active" type="boolean" column="active" nullable="false"/>
+    <field name="deleted" type="boolean" column="deleted" nullable="false"/>
+    <field name="siteid" type="integer" column="siteID" nullable="true"/>
+    <field name="userid" type="integer" column="userID" nullable="false"/>
+    <field name="countlikes" type="integer" column="countLikes" nullable="false"/>
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="WM\WSBundle\Entity\HaForumsCats" table="ha_forums_cats">
+    <id name="catid" type="integer" column="catID">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="parentid" type="integer" column="parentID" nullable="false"/>
+    <field name="catname" type="string" column="catName" length="50" nullable="true"/>
+    <field name="datecreated" type="datetime" column="dateCreated" nullable="false"/>
+    <field name="catorder" type="integer" column="catOrder" nullable="true"/>
+    <field name="deleted" type="boolean" column="deleted" nullable="false"/>
+    <field name="siteid" type="integer" column="siteID" nullable="true"/>
+    <field name="default" type="boolean" column="default" nullable="false"/>
+  </entity>
+</doctrine-mapping>

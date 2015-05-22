@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="WM\WSBundle\Entity\HaPageBlocks" table="ha_page_blocks">
+    <id name="blockid" type="integer" column="blockID">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="pageid" type="integer" column="pageID" nullable="true"/>
+    <field name="versionid" type="integer" column="versionID" nullable="false"/>
+    <field name="blockref" type="string" column="blockRef" length="50" nullable="true"/>
+    <field name="body" type="text" column="body" nullable="true"/>
+    <field name="datecreated" type="datetime" column="dateCreated" nullable="false"/>
+    <field name="siteid" type="integer" column="siteID" nullable="false"/>
+  </entity>
+</doctrine-mapping>
