@@ -14,10 +14,21 @@ class InfosController extends Controller
 {
     public function indexAction($userid,$start, $limit)
     {
+        $infos1 = array();
         
         $repository = $this->getDoctrine()
         ->getRepository('WMWSBundle:HaInfos');
-    
+        
+		$query2 = $repository->createQueryBuilder('i')
+		->select('i.infoid')
+	    ->where("i.userid = :userid and i.new=1")
+		->setParameter('userid', $userid)
+	    ->getQuery();
+	
+        $infos_count = $query2->getResult(Query::HYDRATE_ARRAY);
+		$count_unread = count($infos_count);
+        $infos1[]['unread'] = $count_unread;
+        
 	
 	    $query = $repository->createQueryBuilder('i')
 	    ->where("i.userid = :userid")
@@ -27,17 +38,9 @@ class InfosController extends Controller
 	    ->orderBy('i.infoid', 'DESC')
 	    ->getQuery();
 	
-        $infos = $query->getResult(Query::HYDRATE_ARRAY);
+        $infos2 = $query->getResult(Query::HYDRATE_ARRAY);
 		
-		$query2 = $repository->createQueryBuilder('i')
-		->select('i.infoid')
-	    ->where("i.userid = :userid and i.new=1")
-		->setParameter('userid', $userid)
-	    ->getQuery();
-	
-        $infos_count = $query2->getResult(Query::HYDRATE_ARRAY);
-		$count_unread = count($infos_count);
-		$infos['unread'] = $count_unread;
+		$infos = array_merge($infos1, $infos2);
 		
         $this->get("app.arrays")->utf8_encode_deep($infos);
         $response = new Response(json_encode($infos));

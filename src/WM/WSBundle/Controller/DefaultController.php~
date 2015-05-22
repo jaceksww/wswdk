@@ -15,6 +15,7 @@ class DefaultController extends Controller
 		'start'=>0, 
 		'limit'=>20,
 		));
+		print_r($infos);
 		$dict['infos'] = json_decode($infos->getContent());
 		
 		$forum_categories = $this->forward('WMWSBundle:Forum:index', array(
