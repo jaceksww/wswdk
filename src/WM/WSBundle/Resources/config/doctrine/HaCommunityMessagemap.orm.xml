@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="WM\WSBundle\Entity\HaCommunityMessagemap" table="ha_community_messagemap">
+    <id name="messageid" type="integer" column="messageID"/>
+    <id name="touserid" type="integer" column="toUserID"/>
+    <id name="userid" type="integer" column="userID"/>
+    <id name="siteid" type="integer" column="siteID"/>
+    <field name="parentid" type="integer" column="parentID" nullable="false"/>
+    <field name="unread" type="boolean" column="unread" nullable="false"/>
+    <field name="deleted" type="boolean" column="deleted" nullable="false"/>
+  </entity>
+</doctrine-mapping>

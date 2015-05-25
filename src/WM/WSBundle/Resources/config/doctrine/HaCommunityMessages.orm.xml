@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="WM\WSBundle\Entity\HaCommunityMessages" table="ha_community_messages">
+    <id name="messageid" type="integer" column="messageID">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="datecreated" type="datetime" column="dateCreated" nullable="false"/>
+    <field name="datemodified" type="datetime" column="dateModified" nullable="false"/>
+    <field name="userid" type="integer" column="userID" nullable="true"/>
+    <field name="subject" type="string" column="subject" length="100" nullable="true"/>
+    <field name="message" type="text" column="message" nullable="true"/>
+    <field name="siteid" type="integer" column="siteID" nullable="true"/>
+  </entity>
+</doctrine-mapping>
