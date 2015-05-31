@@ -101,10 +101,6 @@ $collection->add('wmws_users_getuser', new Route('/rest/users/getuser/{userid}/{
     'userid'=>0,
     'displayname'=>''
 )));
-$collection->add('wmws_users_settings', new Route('/rest/users/settings/{userid}', array(
-    '_controller' => 'WMWSBundle:Users:settings',
-    'userid'=>0
-)));
 
 $collection->add('wmws_infos_index', new Route('/rest/infos/{userid}/{start}/{limit}', array(
     '_controller' => 'WMWSBundle:Infos:index',

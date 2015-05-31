@@ -10,6 +10,14 @@ class DefaultController extends Controller
 	public function dictionariesAction($userid)
 	{
 		$dict = array();
+		
+		$messages = $this->forward('WMWSBundle:Messages:inbox', array(
+		'userid'=> $userid,
+		'start'=>0, 
+		'limit'=>20,
+		));
+		$dict['messages'] = json_decode($messages->getContent());
+		
 		$infos = $this->forward('WMWSBundle:Infos:index', array(
 		'userid'=> $userid,
 		'start'=>0, 
