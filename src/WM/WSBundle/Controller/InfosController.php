@@ -49,4 +49,31 @@ class InfosController extends Controller
         return $response;
     }
     
+    public function addAction($content, $url, $type, $userID )
+	{
+		//TO DO to jest z codeignitera
+		if ($this->session->userdata('session_user'))
+		{
+			$this->db->set('authorDisplayName', $this->session->userdata('displayName'));
+			$this->db->set('authorUserID', $this->session->userdata('userID'));
+			$this->db->set('authorAvatar', $this->session->userdata('avatar'));
+		}
+		$this->db->set('new', 1);
+		$this->db->set('content',$content);
+		$this->db->set('url',$url);
+		$this->db->set('type',$type);
+		$this->db->set('userID',$userID);
+		
+		$this->db->insert('infos');
+	}
+	
+	public function resetAction($userID )
+	{
+		//TO DO to jest z codeignitera
+		$this->db->set('new', 0);
+		$this->db->where('userID', $userID);
+		
+		$this->db->update('infos');
+	}
+    
 }

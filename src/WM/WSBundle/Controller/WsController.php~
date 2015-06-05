@@ -681,22 +681,10 @@ class WsController extends Controller
 	    $resp['success'][] = array('code'=>102, 'text'=>'Komentarz został dodany');
 		$resp['commentid'] = $commentID;
 		
-		//do wlasniciela 
-		/*
-		$this->infos->addInfo("<b>BLOG</b> - Ktoś skomentował wpis, który dodałeś na blogu ".$url." <br /> Zobacz &raquo;",
-									      $url,
-									      "BLOG",
-									      $user['userID'] );
-		*/
-		
-		//do wszystkich komentujacych
-		/*
-		foreach comments (jesli kilka komentarzy od jednego to info raz)
-		$this->infos->addInfo("<b>BLOG</b> - Ktoś skomentował wpis, który Ty również skomentowałeś na blogu ".$url." <br /> Zobacz &raquo;",
-									      $url,
-									      "BLOG",
-									      $user['userID'] );
-									      */
+		//$this->infos->addInfo("<b>BLOG</b> - Ktoś skomentował wpis, który dodałeś na blogu ".$url." <br /> Zobacz &raquo;",
+		//							      $url,
+		//							      "BLOG",
+		//							      $user['userID'] );
 	}
 	//$resp = $post;
 		
