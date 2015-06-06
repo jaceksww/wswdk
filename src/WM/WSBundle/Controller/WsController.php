@@ -145,7 +145,7 @@ class WsController extends Controller
         ->getRepository('WMWSBundle:HaWs');
 		
 		$query = $repository->createQueryBuilder('ws')
-	    ->select("ws.parentid, ws.description2, ws.wwwid,ws.wwwtitle,ws.wwwid,ws.mainimage,ws.custom3 as cm, ws.countcomments,ws.countimages,
+	    ->select("ws.parentid, ws.description2, ws.wwwid,ws.userid, ws.wwwtitle,ws.wwwid,ws.mainimage,ws.custom3 as cm, ws.countcomments,ws.countimages,
 		     ws.description, ws.excerpt, ws.datecreated, u.displayname,u.avatar,
 		     wss.name as fishname, wss2.name as bait, ws.custom1 as qtty, ws.custom2 as weight, ws.custom3 as length ")
 	    ->leftJoin("WMWSBundle:HaUsers", "u", "WITH", "u.userid=ws.userid")
@@ -682,21 +682,42 @@ class WsController extends Controller
 		$resp['commentid'] = $commentID;
 		
 		//do wlasniciela 
-		/*
-		$this->infos->addInfo("<b>BLOG</b> - Ktoś skomentował wpis, który dodałeś na blogu ".$url." <br /> Zobacz &raquo;",
-									      $url,
-									      "BLOG",
-									      $user['userID'] );
-		*/
+		$url = 'http://www.wedkarstwo.mobi/ws/w,'.$post['wwwID'];
+		$wsdetails = $this->forward('WMWSBundle:Ws:getwww', array(
+			'wwwid'=>$post['wwwID'],
+			'comments'=>true
+			));
+		$wsdetails = json_decode($wsdetails->getContent());
 		
-		//do wszystkich komentujacych
-		/*
-		foreach comments (jesli kilka komentarzy od jednego to info raz)
-		$this->infos->addInfo("<b>BLOG</b> - Ktoś skomentował wpis, który Ty również skomentowałeś na blogu ".$url." <br /> Zobacz &raquo;",
-									      $url,
-									      "BLOG",
-									      $user['userID'] );
-									      */
+		$already_sent = array();
+		$addInfo = $this->forward('WMWSBundle:Infos:add', array(
+			'content'=> "<b>BLOG</b> - Ktoś skomentował wpis, który dodałeś na blogu ".$url." <br /> Zobacz &raquo;",
+			'url'=>$url, 
+			'type'=>'BLOG',
+			'userid'=>$post['userID'],
+			'authoruserid'=>$wsdetails->{0}->userid
+			));
+		$already_sent[] = $post['userID'];
+		
+		if(!empty($wsdetails->comments))
+		{
+			
+			foreach($wsdetails->comments as $com)
+			{
+				if($com->userid == $post['userID'] || in_array($com->userid, $already_sent)){
+					continue;
+				}
+				$already_sent[] = $com->userid;
+				
+				$addInfo = $this->forward('WMWSBundle:Infos:add', array(
+					'content'=> "<b>BLOG</b> - Ktoś skomentował wpis, który Ty również skomentowałeś na blogu ".$url." <br /> Zobacz &raquo;",
+					'url'=>$url, 
+					'type'=>'BLOG',
+					'userid'=>$com->userid,
+					'authoruserid'=>$post['userID']
+					));
+			}		
+		}
 	}
 	//$resp = $post;
 		
