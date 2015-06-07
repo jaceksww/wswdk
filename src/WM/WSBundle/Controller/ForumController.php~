@@ -234,6 +234,7 @@ class ForumController extends Controller
 				'topicId'=>$post['topicID']
 				));
 			$postdetails = json_decode($postdetails->getContent());
+		print_r($postdetails);
 		
 			$already_sent = array();
 			$addInfo = $this->forward('WMWSBundle:Infos:add', array(
@@ -257,7 +258,7 @@ class ForumController extends Controller
 				
 					$addInfo = $this->forward('WMWSBundle:Infos:add', array(
 						'content'=> "<b>FORUMG</b> - Ktoś dodał post, w wątku który Ty również komentowałeś na forum ".$url." <br /> Zobacz &raquo;",
-						'url'=>$url,  
+						'url'=>$url, 
 						'type'=>'BLOG',
 						'userid'=>$com->userid,
 						'authoruserid'=>$post['userID']
