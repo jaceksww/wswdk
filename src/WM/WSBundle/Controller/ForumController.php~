@@ -158,6 +158,8 @@ class ForumController extends Controller
     public function addpostAction()
     {
 		$post = $_POST;
+		//$this->get("app.arrays")->utf8_encode_deep($post);
+		
 	
 	$resp['error'] = array();
         if( empty($post['body']) || empty($post['topicID']) ){
@@ -202,7 +204,7 @@ class ForumController extends Controller
 			}
 			$forum_post = new HaForumsPosts();
 			$forum_post->setUserid($post['userID']);
-			$forum_post->setBody($post['body']);
+			$forum_post->setBody(utf_encode($post['body']));
 			$forum_post->setTopicid($post['topicID']);
 			if(!empty($post['tmpUserName']))
 				$forum_post->setTmpusername($post['tmpUserName']);
@@ -234,7 +236,6 @@ class ForumController extends Controller
 				'topicId'=>$post['topicID']
 				));
 			$postdetails = json_decode($postdetails->getContent());
-		print_r($postdetails);
 		
 			$already_sent = array();
 			$addInfo = $this->forward('WMWSBundle:Infos:add', array(
@@ -258,7 +259,7 @@ class ForumController extends Controller
 				
 					$addInfo = $this->forward('WMWSBundle:Infos:add', array(
 						'content'=> "<b>FORUMG</b> - Ktoś dodał post, w wątku który Ty również komentowałeś na forum ".$url." <br /> Zobacz &raquo;",
-						'url'=>$url, 
+						'url'=>$url,  
 						'type'=>'BLOG',
 						'userid'=>$com->userid,
 						'authoruserid'=>$post['userID']

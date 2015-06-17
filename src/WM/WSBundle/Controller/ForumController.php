@@ -158,6 +158,8 @@ class ForumController extends Controller
     public function addpostAction()
     {
 		$post = $_POST;
+		//$this->get("app.arrays")->utf8_encode_deep($post);
+		
 	
 	$resp['error'] = array();
         if( empty($post['body']) || empty($post['topicID']) ){
