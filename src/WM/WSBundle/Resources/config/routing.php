@@ -95,6 +95,9 @@ $collection->add('wmws_users_login', new Route('/rest/users/login/{email}/{passw
 $collection->add('wmws_users_register', new Route('/rest/users/register', array(
     '_controller' => 'WMWSBundle:Users:register',
 )));
+$collection->add('wmws_users_updatefield', new Route('/rest/users/updatefield/{field}/{val}/{userID}', array(
+    '_controller' => 'WMWSBundle:Users:updatefield'
+)));
 
 $collection->add('wmws_users_getuser', new Route('/rest/users/getuser/{userid}/{displayname}', array(
     '_controller' => 'WMWSBundle:Users:getuser',
@@ -109,6 +112,11 @@ $collection->add('wmws_users_settings', new Route('/rest/users/settings/{userid}
     'userid'=>0
 )));
 
+
+
+$collection->add('wmws_infos_sendmails', new Route('/rest/infos/sendmails', array(
+    '_controller' => 'WMWSBundle:Infos:sendmails'
+)));
 $collection->add('wmws_infos_reset', new Route('/rest/infos/reset/{userid}', array(
     '_controller' => 'WMWSBundle:Infos:reset'
 )));

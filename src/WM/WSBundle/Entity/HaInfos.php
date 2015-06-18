@@ -276,4 +276,32 @@ class HaInfos
     {
         return $this->infoid;
     }
+    /**
+     * @var boolean
+     */
+    private $mailsent;
+
+
+    /**
+     * Set mailsent
+     *
+     * @param boolean $mailsent
+     * @return HaInfos
+     */
+    public function setMailsent($mailsent)
+    {
+        $this->mailsent = $mailsent;
+
+        return $this;
+    }
+
+    /**
+     * Get mailsent
+     *
+     * @return boolean 
+     */
+    public function getMailsent()
+    {
+        return $this->mailsent;
+    }
 }

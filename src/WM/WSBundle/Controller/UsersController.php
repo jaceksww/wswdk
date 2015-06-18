@@ -309,4 +309,40 @@ class UsersController extends Controller
         return $response;
         
     }
+	
+	public function updatefieldAction($field, $val, $userID)
+    {
+	
+      
+	$resp['error'] = array();
+        if( empty($userID)){
+			$resp['error'][] = 'Nie wskazano usera';
+        }
+		
+	if(empty($resp['error'])){
+	    $em = $this->getDoctrine()->getManager();
+			$user = $em->find('WMWSBundle:HaUsers',$userID);
+			
+		if($field == 'notifications')
+			$user->setNotifications($val);
+		else if($field == 'notifications_promo')
+			$user->setNotificationsPromo($val);
+		else if($field == 'notifications_blog')
+			$user->setNotificationsBlog($val);
+		else if($field == 'notifications_shop')
+			$user->setNotificationsShop($val);
+		
+	    $em = $this->getDoctrine()->getManager();
+		
+			$em->persist($user);
+			$em->flush();
+	    $resp['success'][] = 'Dane zostały zmienione';
+	}
+	//$resp = $post;
+	$this->get("app.arrays")->utf8_encode_deep($resp);
+        $response = new Response(json_encode($resp));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+        
+    }
 }

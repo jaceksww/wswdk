@@ -13,5 +13,6 @@
     <field name="authordisplayname" type="string" column="authorDisplayName" length="245" nullable="false"/>
     <field name="authoravatar" type="string" column="authorAvatar" length="245" nullable="false"/>
     <field name="authoruserid" type="integer" column="authorUserID" nullable="false"/>
+    <field name="mailsent" type="boolean" column="mailsent" nullable="false"/>
   </entity>
 </doctrine-mapping>

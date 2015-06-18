@@ -99,5 +99,75 @@ class InfosController extends Controller
 			return $response;
 			
 	}
+	
+	 public function sendmailsAction()
+	 {
+		 $repository = $this->getDoctrine()
+        ->getRepository('WMWSBundle:HaInfos');
+	  $limit = 100;
+	    $query = $repository->createQueryBuilder('i')
+		->select("u.displayname,u.userid, u.email, u.notifications, i.datecreated, i.content, i.type, i.url, i.authordisplayname, i.authoravatar, i.authoruserid, i.mailsent")
+	    ->where("i.mailsent = :mailsent")
+		->leftJoin("WMWSBundle:HaUsers", "u", "WITH", "u.userid=i.userid")
+	    ->setMaxResults($limit)
+			->setFirstResult(0)
+	    ->setParameter('mailsent', 0)
+	    ->orderBy('i.infoid', 'ASC')
+	    ->getQuery();
+	
+        $infos = $query->getResult(Query::HYDRATE_ARRAY);
+		
+		$usermails = array();
+        
+		foreach($infos as $info){
+			$usermails[$info['userid']][] = $info;
+		}
+		foreach($usermails as $mail)
+		{
+			if($mail[0]['notifications'] != 1 ) continue;
+			
+			 $message = \Swift_Message::newInstance()
+				->setSubject('Hello Email')
+				->setFrom('redakcja@wedkarstwo.mobi')
+				->setTo($mail[0]['email'])
+				->setBody(
+					$this->renderView(
+						// app/Resources/views/Emails/infos.html.twig
+						'@WMWSBundle/Resources/views/Emails/infos.html.twig',
+						array('infos' =>$mail)
+					),
+					'text/html'
+				)
+				/*
+				 * If you also want to include a plaintext version of the message
+				->addPart(
+					$this->renderView(
+						'Emails/registration.txt.twig',
+						array('name' => $name)
+					),
+					'text/plain'
+				)
+				*/
+			;
+			
+			//set sent for this user
+			$this->get('mailer')->send($message);
+			$em = $this->getDoctrine()->getManager();
+			$query = $em->createQuery('update WMWSBundle:HaInfos i set i.mailsent = :mailsent
+                                                where i.userid = :userid ');
+			$query->setParameter('userid', $mail[0]['userid']);
+			$query->setParameter('mailsent', 1);
+			$result = $query->execute();
+			
+		}
+		
+		
+		$this->get("app.arrays")->utf8_encode_deep($infos);
+        $response = new Response(json_encode($infos));
+        $response->headers->set('Content-Type', 'application/json');
+        
+        return $response;
+    }
+    
     
 }
