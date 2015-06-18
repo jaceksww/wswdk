@@ -70,16 +70,31 @@ class InfosController extends Controller
 	
 	    $em->persist($info);
 	    $em->flush();
+	    
+	    $response = new Response();
+			$response->headers->set('Content-Type', 'application/json');
+			return $response;
 		
 	}
 	
-	public function resetAction($userID )
+	public function resetAction($userid )
 	{
-		//TO DO to jest z codeignitera
-		$this->db->set('new', 0);
-		$this->db->where('userID', $userID);
-		
-		$this->db->update('infos');
+		$em = $this->getDoctrine()->getManager();
+			#$info = $em->find('WMWSBundle:HaInfos',['userid'=>$userID]);
+			#$info->setNew(0);
+			#$em = $this->getDoctrine()->getManager();
+			#$em->persist($info);
+			#$em->flush();
+			
+			$query = $em->createQuery('update WMWSBundle:HaInfos i set i.new = :new
+                                                where i.userid = :userid ');
+			$query->setParameter('userid', $userid);
+			$query->setParameter('new', 0);
+			$result = $query->execute();
+			$response = new Response($result);
+			$response->headers->set('Content-Type', 'application/json');
+			return $response;
+			
 	}
     
 }

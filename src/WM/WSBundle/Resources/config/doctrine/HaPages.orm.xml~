@@ -29,6 +29,6 @@
     <field name="views" type="integer" column="views" nullable="false"/>
     <field name="deleted" type="boolean" column="deleted" nullable="false"/>
     <field name="siteid" type="integer" column="siteID" nullable="false"/>
-    <field name="mainimage" type="string" column="mainImage" nullable="true"/>
+    <field name="mainimage" type="string" column="mainImage" nullable="false"/>
   </entity>
 </doctrine-mapping>

@@ -187,6 +187,40 @@ class UsersController extends Controller
         return $response;
         
     }
+    public function getusersAction()
+    {
+        $querystr='';
+        if(!empty($_POST['query'])) $querystr = $_POST['query'];
+        
+        $repository = $this->getDoctrine()
+        ->getRepository('WMWSBundle:HaUsers');
+    
+		if($querystr == ''){
+			$query = $repository->createQueryBuilder('u')
+			->orderBy('u.displayname', 'ASC')
+			->getQuery();
+		}else{
+			$query = $repository->createQueryBuilder('u')
+			->where('u.displayname like :displayname')
+			->setParameter('displayname', '%'.$querystr.'%')
+			->orderBy('u.displayname', 'ASC')
+			->getQuery();
+		}
+	
+        $users = $query->getResult(Query::HYDRATE_ARRAY);
+		$this->get("app.arrays")->utf8_encode_deep($users);
+       //print_r($ws);
+       
+       if(empty($users)){
+		$users = 0;
+       }
+       //print_r($ws_uft8);
+        $response = new Response(json_encode($users));
+        $response->headers->set('Content-Type', 'application/json');
+        
+        return $response;
+        
+    }
 	
 	public function settingsAction()
     {

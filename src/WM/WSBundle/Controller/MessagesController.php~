@@ -110,7 +110,7 @@ class MessagesController extends Controller
         return $response;
     }  
     
-    public function viewAction($messageid)
+    public function viewAction($messageid, $userid=0,$setasread=0)
     {
         
         $repository = $this->getDoctrine()
@@ -127,6 +127,18 @@ class MessagesController extends Controller
 	    ->setParameter('messageid', $messageid)
 	    ->getQuery();
         $message = $query->getResult(Query::HYDRATE_ARRAY);
+        
+        if($setasread == 1 && $message["0"]["userid"] != $userid){
+		    $em = $this->getDoctrine()->getManager();
+			$messagemap = $em->find('WMWSBundle:HaCommunityMessagemap',['siteid'=>1,'messageid'=>$messageid,'userid'=>$message["0"]["userid"], 'touserid'=>$userid]);
+		
+        	$messagemap->setUnread(0);
+			$em = $this->getDoctrine()->getManager();
+		
+			$em->persist($messagemap);
+			$em->flush();
+			
+        }
 		
         $this->get("app.arrays")->utf8_encode_deep($message);
         $response = new Response(json_encode($message[0]));
@@ -158,6 +170,21 @@ class MessagesController extends Controller
 			$em->persist($message);
 			$em->flush();
 			$messageID = $message->getMessageid();
+			
+			$messagemap = new HaCommunityMessagemap();
+				$messagemap->setUserid($post['userID']);
+				$messagemap->setTouserid($post['touserID']);
+				$messagemap->setMessageid($messageID);
+				$messagemap->setParentid(0);
+				$messagemap->setUnread(1);
+				$messagemap->setDeleted(0);
+				$messagemap->setSiteid(1);
+				$em = $this->getDoctrine()->getManager();
+			
+				$em->persist($messagemap);
+				$em->flush();
+				
+			
 			$resp['success'][] = array('code'=>102, 'text'=>'Wiadomość została dodana pomyślnie');
 			$resp['messageID'] = $messageID;
 			
@@ -192,6 +219,16 @@ class MessagesController extends Controller
 		}
 	//$resp = $post;
 		
+		$url = 'http://www.wedkarstwo.mobi/messages/view/'.$messageID;
+			
+		$addInfo = $this->forward('WMWSBundle:Infos:add', array(
+						'content'=> "<b>WIADOMOŚĆ</b> - Ktoś wysłał do Ciebie wiadomość ".$url." <br /> Zobacz &raquo;",
+						'url'=>$url,  
+						'type'=>'WIADOMOŚĆ',
+						'userid'=>$post['touserID'],
+						'authoruserid'=>$post['userID']
+						));
+						
 			$this->get("app.arrays")->utf8_encode_deep($resp);
 			$response = new Response(json_encode($resp));
 			$response->headers->set('Content-Type', 'application/json');

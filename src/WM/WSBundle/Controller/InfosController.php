@@ -77,13 +77,27 @@ class InfosController extends Controller
 		
 	}
 	
-	public function resetAction($userID )
+	public function resetAction($userid )
 	{
-		//TO DO to jest z codeignitera
-		$this->db->set('new', 0);
-		$this->db->where('userID', $userID);
-		
-		$this->db->update('infos');
+		$em = $this->getDoctrine()->getManager();
+			#$info = $em->find('WMWSBundle:HaInfos',['userid'=>$userID]);
+			#$info->setNew(0);
+			#$em = $this->getDoctrine()->getManager();
+			#$em->persist($info);
+			#$em->flush();
+			
+			$query = $em->createQuery('update WMWSBundle:HaInfos i set i.new = :new
+                                                where i.userid = :userid ');
+			$query->setParameter('userid', $userid);
+			$query->setParameter('new', 0);
+			$result = $query->execute();
+			$response = new Response($result);
+			$response->headers->set('Content-Type', 'application/json');
+			$response->headers->set('Access-Control-Allow-Headers', 'origin, content-type, accept');
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        $response->headers->set('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, PATCH, OPTIONS');
+			return $response;
+			
 	}
     
 }

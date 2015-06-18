@@ -356,7 +356,7 @@ class HaPages
     }
 
     /**
-     * Set parentid
+     * Set parentidreset/2
      *
      * @param integer $parentid
      * @return HaPages
@@ -618,6 +618,18 @@ class HaPages
         return $this->pageid;
     }
     
+    /**
+     * Set mainimage
+     *
+     * @return string 
+     */
+    public function setMainimage($mainimage)
+    {
+        
+        $this->mainimage = $mainimage;
+
+        return $this;
+    }
     /**
      * Get mainimage
      *

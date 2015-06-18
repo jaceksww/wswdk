@@ -101,12 +101,18 @@ $collection->add('wmws_users_getuser', new Route('/rest/users/getuser/{userid}/{
     'userid'=>0,
     'displayname'=>''
 )));
+$collection->add('wmws_users_getusers', new Route('/rest/users/getusers', array(
+    '_controller' => 'WMWSBundle:Users:getusers'
+)));
 $collection->add('wmws_users_settings', new Route('/rest/users/settings/{userid}', array(
     '_controller' => 'WMWSBundle:Users:settings',
     'userid'=>0
 )));
 
-$collection->add('wmws_infos_index', new Route('/rest/infos/{userid}/{start}/{limit}', array(
+$collection->add('wmws_infos_reset', new Route('/rest/infos/reset/{userid}', array(
+    '_controller' => 'WMWSBundle:Infos:reset'
+)));
+$collection->add('wmws_infos_index', new Route('/rest/infos/index/{userid}/{start}/{limit}', array(
     '_controller' => 'WMWSBundle:Infos:index',
     'limit' => 20,
     'start' => 0
@@ -124,8 +130,10 @@ $collection->add('wmws_messages_outbox', new Route('/rest/messages/outbox/{useri
     'limit' => 20,
     'start' => 0
 )));
-$collection->add('wmws_messages_view', new Route('/rest/messages/view/{messageid}', array(
-    '_controller' => 'WMWSBundle:Messages:view'
+$collection->add('wmws_messages_view', new Route('/rest/messages/view/{messageid}/{setasread}/{userid}', array(
+    '_controller' => 'WMWSBundle:Messages:view',
+    'setasread' => 0,
+    'userid' => 0
 )));
 $collection->add('wmws_messages_add', new Route('/rest/messages/add', array(
     '_controller' => 'WMWSBundle:Messages:add'
