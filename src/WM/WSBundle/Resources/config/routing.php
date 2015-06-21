@@ -30,7 +30,9 @@ $collection->add('wmws_forums_addpost', new Route('/rest/forums/addpost', array(
 $collection->add('wmws_forums_addtopic', new Route('/rest/forums/addtopic', array(
     '_controller' => 'WMWSBundle:Forum:addtopic',
 )));
-
+$collection->add('wmws_forums_deletepost', new Route('/rest/forums/deletepost/{postid}', array(
+    '_controller' => 'WMWSBundle:Forum:deletepost'
+)));
 
 $collection->add('wmws_ws', new Route('/rest/ws/index/{type}/{start}/{limit}/{userid}', array(
     '_controller' => 'WMWSBundle:Ws:index',
@@ -145,6 +147,9 @@ $collection->add('wmws_messages_view', new Route('/rest/messages/view/{messageid
 )));
 $collection->add('wmws_messages_add', new Route('/rest/messages/add', array(
     '_controller' => 'WMWSBundle:Messages:add'
+)));
+$collection->add('wmws_messages_delete', new Route('/rest/messages/delete/{messageid}/{userid}', array(
+    '_controller' => 'WMWSBundle:Messages:delete'
 )));
 
 return $collection;

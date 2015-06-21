@@ -65,6 +65,7 @@ class InfosController extends Controller
 		$info->setUrl($url);
 		$info->setType($type);
 		$info->setNew(1);
+		$info->setMailsent(0);
 		$info->setDatecreated(new DateTime("now"));
 	    $em = $this->getDoctrine()->getManager();
 	
@@ -127,7 +128,7 @@ class InfosController extends Controller
 			if($mail[0]['notifications'] != 1 ) continue;
 			
 			 $message = \Swift_Message::newInstance()
-				->setSubject('Hello Email')
+				->setSubject('[Wedkarstwo.mobi][Powiadomienia o aktywności związanej z Tobą]')
 				->setFrom('redakcja@wedkarstwo.mobi')
 				->setTo($mail[0]['email'])
 				->setBody(

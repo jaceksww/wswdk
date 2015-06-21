@@ -25,7 +25,7 @@ class MessagesController extends Controller
         
 		$query1 = $repository->createQueryBuilder('cmm')
 		->select('cmm.messageid')
-	    ->where("cmm.touserid = :userid and cmm.touserid <> cmm.userid")
+	    ->where("cmm.touserid = :userid and cmm.touserid <> cmm.userid and cmm.deleted = 0")
 		->setParameter('userid', $userid)
 	    ->getQuery();
 	
@@ -35,7 +35,7 @@ class MessagesController extends Controller
         
         $query2 = $repository->createQueryBuilder('cmm')
 		->select('cmm.messageid')
-	    ->where("cmm.touserid = :userid and cmm.unread=1  and cmm.touserid <> cmm.userid")
+	    ->where("cmm.touserid = :userid and cmm.unread=1  and cmm.touserid <> cmm.userid and cmm.deleted = 0")
 		->setParameter('userid', $userid)
 	    ->getQuery();
 	
@@ -47,7 +47,7 @@ class MessagesController extends Controller
 	    $query = $repository->createQueryBuilder('cmm')
 	    ->select('cm.messageid, cmm.userid, cmm.touserid, cm.datecreated, cmm.parentid, cmm.unread, cm.subject, cm.message,
 	    u.avatar, u.displayname')
-	    ->where("cmm.touserid = :userid and cmm.touserid <> cmm.userid")
+	    ->where("cmm.touserid = :userid and cmm.touserid <> cmm.userid and cmm.deleted = 0")
 	    ->leftJoin("WMWSBundle:HaCommunityMessages", "cm", "WITH", "cm.messageid=cmm.messageid")
 	    ->leftJoin("WMWSBundle:HaUsers", "u", "WITH", "u.userid=cmm.userid")
 	    ->setMaxResults($limit)
@@ -90,7 +90,7 @@ class MessagesController extends Controller
 	    $query = $repository->createQueryBuilder('cmm')
 	    ->select('cm.messageid, cmm.userid, cmm.touserid, cm.datecreated, cmm.parentid, cmm.unread, cm.subject, cm.message,
 	    u.avatar, u.displayname')
-	    ->where("cmm.userid = :userid and cmm.touserid <> cmm.userid")
+	    ->where("cmm.userid = :userid and cmm.touserid = cmm.userid and cmm.deleted = 0")
 	    ->leftJoin("WMWSBundle:HaCommunityMessages", "cm", "WITH", "cm.messageid=cmm.messageid")
 	    ->leftJoin("WMWSBundle:HaUsers", "u", "WITH", "u.userid=cmm.userid")
 	    ->setMaxResults($limit)
@@ -222,6 +222,26 @@ class MessagesController extends Controller
 			$response->headers->set('Content-Type', 'application/json');
 			return $response;
 		
+        
+    }
+
+	public function deleteAction($messageid, $userid)
+    {
+        $em = $this->getDoctrine()->getManager();
+			$query = $em->createQuery('update WMWSBundle:HaCommunityMessagemap cmm set cmm.deleted = :deleted
+                                                where cmm.touserid = :userid and cmm.messageid = :messageid');
+			$query->setParameter('userid', $userid);
+			$query->setParameter('messageid', $messageid);
+			$query->setParameter('deleted', 1);
+			$result = $query->execute();
+
+	    $resp['success'][] = 'Dane zostały usunięte';
+	
+	//$resp = $post;
+	$this->get("app.arrays")->utf8_encode_deep($resp);
+        $response = new Response(json_encode($resp));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
         
     }
 }

@@ -109,10 +109,11 @@ class ForumController extends Controller
         ->getRepository('WMWSBundle:HaForumsPosts');
     
     $query = $repository->createQueryBuilder('fp')
-	->select("f.forumid, f.forumname, ft.topictitle,ft.topicid, ft.userid as topicauthoruserid, u.userid ,u.displayname, u.avatar, fp.datecreated, fp.body, fp.tmpusername")
-        ->where('fp.topicid = :topicid')
+	->select("f.forumid, f.forumname, ft.topictitle,ft.topicid, ft.userid as topicauthoruserid, fp.userid ,u.displayname, u.avatar,fp.postid, fp.datecreated, fp.body, fp.tmpusername")
+        ->where('fp.topicid = :topicid and fp.deleted = :deleted')
        // ->andWhere('c.reviewed = 1')
         ->setParameter('topicid', $topicId)
+		->setParameter('deleted', 0)
 	->leftJoin("WMWSBundle:HaUsers", "u", "WITH", "u.userid=fp.userid")
 	->leftJoin("WMWSBundle:HaForumsTopics", "ft", "WITH", "ft.topicid=fp.topicid")
 	->leftJoin("WMWSBundle:HaForums", "f", "WITH", "ft.forumid=f.forumid")
@@ -327,7 +328,25 @@ class ForumController extends Controller
         
     }
 	
+	public function deletepostAction($postid)
+    {
 	
+        $em = $this->getDoctrine()->getManager();
+			$query = $em->createQuery('update WMWSBundle:HaForumsPosts fp set fp.deleted = :deleted
+                                                where fp.postid = :postid');
+			$query->setParameter('postid', $postid);
+			$query->setParameter('deleted', 1);
+			$result = $query->execute();
+
+	    $resp['success'][] = 'Dane zostały usunięte';
+	
+	//$resp = $post;
+	$this->get("app.arrays")->utf8_encode_deep($resp);
+        $response = new Response(json_encode($resp));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+        
+    }
 	
 	//////////////////////////////////////////
 	////////////////helpers///////////////////
