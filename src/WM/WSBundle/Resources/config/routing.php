@@ -21,8 +21,10 @@ $collection->add('wmws_forums_index', new Route('/rest/forums/index/{catId}', ar
 $collection->add('wmws_forums', new Route('/rest/forums/topics/{forumId}', array(
     '_controller' => 'WMWSBundle:Forum:topics',
 )));
-$collection->add('wmws_forums_posts', new Route('/rest/forums/posts/{topicId}', array(
+$collection->add('wmws_forums_posts', new Route('/rest/forums/posts/{topicId}/{start}/{limit}', array(
     '_controller' => 'WMWSBundle:Forum:posts',
+    'limit' => 20,
+    'start'=>0
 )));
 $collection->add('wmws_forums_addpost', new Route('/rest/forums/addpost', array(
     '_controller' => 'WMWSBundle:Forum:addpost',

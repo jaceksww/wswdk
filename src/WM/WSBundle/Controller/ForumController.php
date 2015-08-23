@@ -103,7 +103,7 @@ class ForumController extends Controller
         return $response;
     }
     
-    public function postsAction($topicId=0)
+    public function postsAction($topicId=0, $start=0, $limit=20)
     {
 	$repository = $this->getDoctrine()
         ->getRepository('WMWSBundle:HaForumsPosts');
@@ -114,6 +114,8 @@ class ForumController extends Controller
        // ->andWhere('c.reviewed = 1')
         ->setParameter('topicid', $topicId)
 		->setParameter('deleted', 0)
+		->setMaxResults($limit)
+		->setFirstResult($start)
 	->leftJoin("WMWSBundle:HaUsers", "u", "WITH", "u.userid=fp.userid")
 	->leftJoin("WMWSBundle:HaForumsTopics", "ft", "WITH", "ft.topicid=fp.topicid")
 	->leftJoin("WMWSBundle:HaForums", "f", "WITH", "ft.forumid=f.forumid")
