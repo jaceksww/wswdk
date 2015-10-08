@@ -124,6 +124,20 @@ class ForumController extends Controller
 	$repository = $this->getDoctrine()
         ->getRepository('WMWSBundle:HaForumsPosts');
     
+    $query_count = $repository->createQueryBuilder('fp')
+	->select("count(fp.postid)")
+        ->where('fp.topicid = :topicid and fp.deleted = :deleted')
+       // ->andWhere('c.reviewed = 1')
+        ->setParameter('topicid', $topicId)
+		->setParameter('deleted', 0)
+		->getQuery();
+    
+	$forums_count_posts = $query_count->getSingleScalarResult();
+	$next = $start + $limit;
+	if($forums_count_posts < $next){
+		$start = $forums_count_posts - $limit;
+	}
+	
     $query = $repository->createQueryBuilder('fp')
 	->select("f.forumid, f.forumname, ft.topictitle,ft.topicid, ft.userid as topicauthoruserid, fp.userid ,u.displayname, u.avatar,fp.postid, fp.datecreated, fp.body, fp.tmpusername")
         ->where('fp.topicid = :topicid and fp.deleted = :deleted')

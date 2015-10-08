@@ -96,7 +96,7 @@ class ForumController extends Controller
         ->getQuery();
     }else{
     $start = 0;
-    $limit=30;
+    $limit=20;
     $query = $repository->createQueryBuilder('ft')
 		->select("ft.topictitle,ft.topicid, u.displayname, ft.datecreated, ft.replies, ft.views, ft.lastpostid, ft.lastpostuserid, ft.tmpusername,
 		f.forumname, f.forumid, f.catid")
