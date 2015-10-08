@@ -134,8 +134,12 @@ class ForumController extends Controller
     
 	$forums_count_posts = $query_count->getSingleScalarResult();
 	$next = $start + $limit;
-	if($forums_count_posts < $next){
+	$next_total = $forums_count_posts - $limit;
+	if($forums_count_posts < $next && $next_total > 0 && $forums_count_posts > $limit){
 		$start = $forums_count_posts - $limit;
+	}
+	if($forums_count_posts < $limit){
+		$start = 0;
 	}
 	
     $query = $repository->createQueryBuilder('fp')
