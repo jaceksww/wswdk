@@ -16,7 +16,7 @@ class DefaultController extends Controller
 		'start'=>0, 
 		'limit'=>20,
 		));
-		$dict['messages'] = json_decode($infos->getContent());
+		$dict['messages'] = json_decode($messages->getContent());
 		
 		$infos = $this->forward('WMWSBundle:Infos:index', array(
 		'userid'=> $userid,
@@ -52,6 +52,9 @@ class DefaultController extends Controller
 		));
 		$dict['categories'] = json_decode($categories->getContent());
 		
+		$forum_categories = $this->forward('WMWSBundle:Forum:index', array('forumId'=>0
+		));
+		$dict['forum_categories'] = json_decode($forum_categories->getContent());
 		
 		
 		

@@ -81,17 +81,33 @@ class ForumController extends Controller
 	$repository = $this->getDoctrine()
         ->getRepository('WMWSBundle:HaForumsTopics');
     
+    if($forumId != 0)
+    {
     $query = $repository->createQueryBuilder('ft')
-	->select("ft.topictitle,ft.topicid, u.displayname, ft.datecreated, ft.replies, ft.views, ft.lastpostid, ft.lastpostuserid, ft.tmpusername,
-	f.forumname, f.forumid, f.catid")
+		->select("ft.topictitle,ft.topicid, u.displayname, ft.datecreated, ft.replies, ft.views, ft.lastpostid, ft.lastpostuserid, ft.tmpusername,
+		f.forumname, f.forumid, f.catid")
         ->where('ft.forumid = :forumid')
        // ->andWhere('c.reviewed = 1')
         ->setParameter('forumid', $forumId)
-	->leftJoin("WMWSBundle:HaUsers", "u", "WITH", "u.userid=ft.userid")
-	->leftJoin("WMWSBundle:HaForums", "f", "WITH", "f.forumid=ft.forumid")
+		->leftJoin("WMWSBundle:HaUsers", "u", "WITH", "u.userid=ft.userid")
+		->leftJoin("WMWSBundle:HaForums", "f", "WITH", "f.forumid=ft.forumid")
         ->orderBy('ft.datecreated', 'DESC')
        
         ->getQuery();
+    }else{
+    $start = 0;
+    $limit=20;
+    $query = $repository->createQueryBuilder('ft')
+		->select("ft.topictitle,ft.topicid, u.displayname, ft.datecreated, ft.replies, ft.views, ft.lastpostid, ft.lastpostuserid, ft.tmpusername,
+		f.forumname, f.forumid, f.catid")
+        ->setMaxResults($limit)
+		->setFirstResult($start)
+		->leftJoin("WMWSBundle:HaUsers", "u", "WITH", "u.userid=ft.userid")
+		->leftJoin("WMWSBundle:HaForums", "f", "WITH", "f.forumid=ft.forumid")
+        ->orderBy('ft.datecreated', 'DESC')
+       
+        ->getQuery();
+    }
     
 	$forums_topics = $query->getResult(Query::HYDRATE_ARRAY);
 	$this->get("app.arrays")->utf8_encode_deep($forums_topics);

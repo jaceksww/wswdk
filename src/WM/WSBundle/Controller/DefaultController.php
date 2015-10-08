@@ -52,7 +52,9 @@ class DefaultController extends Controller
 		));
 		$dict['categories'] = json_decode($categories->getContent());
 		
-		
+		$latests_forum = $this->forward('WMWSBundle:Forum:topics', array('forumId'=>0
+		));
+		$dict['latests_forum'] = json_decode($latests_forum->getContent());
 		
 		
         $response = new Response(json_encode($dict));
