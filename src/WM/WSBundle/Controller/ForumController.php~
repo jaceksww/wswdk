@@ -78,10 +78,11 @@ class ForumController extends Controller
     
     public function topicsAction($forumId=0)
     {
+    
 	$repository = $this->getDoctrine()
         ->getRepository('WMWSBundle:HaForumsTopics');
     
-    if($forumId != 0)
+    if($forumId != 0 && $forumId != 9999)
     {
     $query = $repository->createQueryBuilder('ft')
 		->select("ft.topictitle,ft.topicid, u.displayname, ft.datecreated, ft.replies, ft.views, ft.lastpostid, ft.lastpostuserid, ft.tmpusername,
@@ -89,6 +90,22 @@ class ForumController extends Controller
         ->where('ft.forumid = :forumid')
        // ->andWhere('c.reviewed = 1')
         ->setParameter('forumid', $forumId)
+		->leftJoin("WMWSBundle:HaUsers", "u", "WITH", "u.userid=ft.userid")
+		->leftJoin("WMWSBundle:HaForums", "f", "WITH", "f.forumid=ft.forumid")
+        ->orderBy('ft.datecreated', 'DESC')
+       
+        ->getQuery();
+    }else if($forumId == 9999)
+    {
+    $start = 0;
+    $limit=9999;
+    $query = $repository->createQueryBuilder('ft')
+		->select("ft.topictitle,ft.topicid, u.displayname, ft.datecreated, ft.replies, ft.views, ft.lastpostid, ft.lastpostuserid, ft.tmpusername,
+		f.forumname, f.forumid, f.catid")
+        ->where('ft.forumid = :forumid')
+        ->setMaxResults($limit)
+		->setFirstResult($start)
+       // ->andWhere('c.reviewed = 1')
 		->leftJoin("WMWSBundle:HaUsers", "u", "WITH", "u.userid=ft.userid")
 		->leftJoin("WMWSBundle:HaForums", "f", "WITH", "f.forumid=ft.forumid")
         ->orderBy('ft.datecreated', 'DESC')
@@ -124,6 +141,24 @@ class ForumController extends Controller
 	$repository = $this->getDoctrine()
         ->getRepository('WMWSBundle:HaForumsPosts');
     
+    $query_count = $repository->createQueryBuilder('fp')
+	->select("count(fp.postid)")
+        ->where('fp.topicid = :topicid and fp.deleted = :deleted')
+       // ->andWhere('c.reviewed = 1')
+        ->setParameter('topicid', $topicId)
+		->setParameter('deleted', 0)
+		->getQuery();
+    
+	$forums_count_posts = $query_count->getSingleScalarResult();
+	$next = $start + $limit;
+	$next_total = $forums_count_posts - $limit;
+	if($forums_count_posts < $next && $next_total > 0 && $forums_count_posts > $limit){
+		$start = $forums_count_posts - $limit;
+	}
+	if($forums_count_posts < $limit){
+		$start = 0;
+	}
+	
     $query = $repository->createQueryBuilder('fp')
 	->select("f.forumid, f.forumname, ft.topictitle,ft.topicid, ft.userid as topicauthoruserid, fp.userid ,u.displayname, u.avatar,fp.postid, fp.datecreated, fp.body, fp.tmpusername")
         ->where('fp.topicid = :topicid and fp.deleted = :deleted')

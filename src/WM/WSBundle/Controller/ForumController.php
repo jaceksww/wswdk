@@ -78,10 +78,11 @@ class ForumController extends Controller
     
     public function topicsAction($forumId=0)
     {
+    
 	$repository = $this->getDoctrine()
         ->getRepository('WMWSBundle:HaForumsTopics');
     
-    if($forumId != 0)
+    if($forumId != 0 && $forumId != 9999)
     {
     $query = $repository->createQueryBuilder('ft')
 		->select("ft.topictitle,ft.topicid, u.displayname, ft.datecreated, ft.replies, ft.views, ft.lastpostid, ft.lastpostuserid, ft.tmpusername,
@@ -89,6 +90,20 @@ class ForumController extends Controller
         ->where('ft.forumid = :forumid')
        // ->andWhere('c.reviewed = 1')
         ->setParameter('forumid', $forumId)
+		->leftJoin("WMWSBundle:HaUsers", "u", "WITH", "u.userid=ft.userid")
+		->leftJoin("WMWSBundle:HaForums", "f", "WITH", "f.forumid=ft.forumid")
+        ->orderBy('ft.datecreated', 'DESC')
+       
+        ->getQuery();
+    }else if($forumId == 9999)
+    {
+    $start = 0;
+    $limit=9999;
+    $query = $repository->createQueryBuilder('ft')
+		->select("ft.topictitle,ft.topicid, u.displayname, ft.datecreated, ft.replies, ft.views, ft.lastpostid, ft.lastpostuserid, ft.tmpusername,
+		f.forumname, f.forumid, f.catid")
+        ->setMaxResults($limit)
+		->setFirstResult($start)
 		->leftJoin("WMWSBundle:HaUsers", "u", "WITH", "u.userid=ft.userid")
 		->leftJoin("WMWSBundle:HaForums", "f", "WITH", "f.forumid=ft.forumid")
         ->orderBy('ft.datecreated', 'DESC')
