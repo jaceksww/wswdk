@@ -102,10 +102,8 @@ class ForumController extends Controller
     $query = $repository->createQueryBuilder('ft')
 		->select("ft.topictitle,ft.topicid, u.displayname, ft.datecreated, ft.replies, ft.views, ft.lastpostid, ft.lastpostuserid, ft.tmpusername,
 		f.forumname, f.forumid, f.catid")
-        ->where('ft.forumid = :forumid')
         ->setMaxResults($limit)
 		->setFirstResult($start)
-       // ->andWhere('c.reviewed = 1')
 		->leftJoin("WMWSBundle:HaUsers", "u", "WITH", "u.userid=ft.userid")
 		->leftJoin("WMWSBundle:HaForums", "f", "WITH", "f.forumid=ft.forumid")
         ->orderBy('ft.datecreated', 'DESC')
@@ -175,15 +173,63 @@ class ForumController extends Controller
         ->getQuery();
     
 	$forums_posts = $query->getResult(Query::HYDRATE_ARRAY);
-	$this->get("app.arrays")->utf8_encode_deep($forums_posts);
+	$new_forums_posts = array();
+	foreach ( $forums_posts as $post) { // reference
+		//$tmp_post = $post;
+		$body = $post['body'];
+		$find = array(
+		"'\n'i",
+		"'\[b\](.*?)\[/b\]'is",
+		"'\[i\](.*?)\[/i\]'is",
+		"'\[u\](.*?)\[/u\]'is",
+		"'\[s\](.*?)\[/s\]'is",
+		"'\[img\](.*?)\[/img\]'i",
+		"'\[url\](.*?)\[/url\]'i",
+		"'\[url=(.*?)\](.*?)\[/url\]'i",
+		"'\[link\](.*?)\[/link\]'i",
+		"'\[link=(.*?)\](.*?)\[/link\]'i",
+		"'\[size=small\](.*?)\[/size\]'is",	
+		"'\[size=normal\](.*?)\[/size\]'is",
+		"'\[size=medium\](.*?)\[/size\]'is",
+		"'\[size=big\](.*?)\[/size\]'is",
+		"'\[quote\](.*?)\[/quote\]'is",
+		"'\[code\](.*?)\[/code\]'is"	
+		);
+	
+		$replace = array(
+		'<br />',
+		'<strong>\\1</strong>',
+		'<em>\\1</em>',
+		'<u>\\1</u>',
+		'<s>\\1</s>',
+		'<img src="\\1" alt="" />',
+		'<a href="\\1">\\1</a>',
+		'<a href="\\1">\\2</a>',
+		'<a href="\\1">\\1</a>',
+		'<a href="\\1">\\2</a>',
+		'<span style="font-size:0.9em;">\\1</span>',	
+		'<span style="font-size:1em;">\\1</span>',
+		'<span style="font-size:1.2em;">\\1</span>',
+		'<span style="font-size:1.4em;">\\1</span>',
+		'</p><blockquote>\\1</blockquote><p>',	
+		'<pre><code>\\1</pre></code>'				
+		);
+		$body = preg_replace($find, $replace, $body);
+		
+		$post['body'] = $body;
+		$new_forums_posts[] = $post;
+	}
+	
+	//$new_forums_posts = $forums_posts ;
+	$this->get("app.arrays")->utf8_encode_deep($new_forums_posts);
         
         
-        $response = new Response(json_encode($forums_posts));
+        $response = new Response(json_encode($new_forums_posts));
         $response->headers->set('Content-Type', 'application/json');
         
         return $response;
     }
-    
+   
     public function catsAction()
     {
         
