@@ -158,7 +158,7 @@ class ForumController extends Controller
 	}
 	
     $query = $repository->createQueryBuilder('fp')
-	->select("f.forumid, f.forumname, ft.topictitle,ft.topicid, ft.userid as topicauthoruserid, fp.userid ,u.displayname, u.avatar,fp.postid, fp.datecreated, fp.body, fp.tmpusername")
+	->select("f.forumid, f.forumname, ft.topictitle,ft.topicid, ft.userid as topicauthoruserid, fp.userid, fp.image ,u.displayname, u.avatar,fp.postid, fp.datecreated, fp.body, fp.tmpusername")
         ->where('fp.topicid = :topicid and fp.deleted = :deleted')
        // ->andWhere('c.reviewed = 1')
         ->setParameter('topicid', $topicId)

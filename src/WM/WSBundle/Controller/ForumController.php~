@@ -102,10 +102,8 @@ class ForumController extends Controller
     $query = $repository->createQueryBuilder('ft')
 		->select("ft.topictitle,ft.topicid, u.displayname, ft.datecreated, ft.replies, ft.views, ft.lastpostid, ft.lastpostuserid, ft.tmpusername,
 		f.forumname, f.forumid, f.catid")
-        ->where('ft.forumid = :forumid')
         ->setMaxResults($limit)
 		->setFirstResult($start)
-       // ->andWhere('c.reviewed = 1')
 		->leftJoin("WMWSBundle:HaUsers", "u", "WITH", "u.userid=ft.userid")
 		->leftJoin("WMWSBundle:HaForums", "f", "WITH", "f.forumid=ft.forumid")
         ->orderBy('ft.datecreated', 'DESC')
@@ -160,7 +158,7 @@ class ForumController extends Controller
 	}
 	
     $query = $repository->createQueryBuilder('fp')
-	->select("f.forumid, f.forumname, ft.topictitle,ft.topicid, ft.userid as topicauthoruserid, fp.userid ,u.displayname, u.avatar,fp.postid, fp.datecreated, fp.body, fp.tmpusername")
+	->select("f.forumid, f.forumname, ft.topictitle,ft.topicid, ft.userid as topicauthoruserid, fp.userid, fp.image ,u.displayname, u.avatar,fp.postid, fp.datecreated, fp.body, fp.tmpusername")
         ->where('fp.topicid = :topicid and fp.deleted = :deleted')
        // ->andWhere('c.reviewed = 1')
         ->setParameter('topicid', $topicId)
