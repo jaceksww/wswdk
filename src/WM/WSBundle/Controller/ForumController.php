@@ -173,15 +173,25 @@ class ForumController extends Controller
         ->getQuery();
     
 	$forums_posts = $query->getResult(Query::HYDRATE_ARRAY);
-	$this->get("app.arrays")->utf8_encode_deep($forums_posts);
+	$new_forums_posts = array();
+	foreach ( $forums_posts as $post) { // reference
+		//$tmp_post = $post;
+		$body = $post['body'];
+		
+		$post['body'] = $this->get("app.arrays")->bbcode($body);
+		$new_forums_posts[] = $post;
+	}
+	
+	//$new_forums_posts = $forums_posts ;
+	$this->get("app.arrays")->utf8_encode_deep($new_forums_posts);
         
         
-        $response = new Response(json_encode($forums_posts));
+        $response = new Response(json_encode($new_forums_posts));
         $response->headers->set('Content-Type', 'application/json');
         
         return $response;
     }
-    
+   
     public function catsAction()
     {
         
