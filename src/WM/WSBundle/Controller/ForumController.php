@@ -408,7 +408,99 @@ class ForumController extends Controller
         return $response;
         
     }
-	
+	public function parseiframesAction()
+    {
+    	/*
+         
+        */
+       // require_once '/wedkarstwows.swedrowski.eu/src/WM/WSBundle/Libs/Facebook/autoload.php';
+      
+    	$token = $this->get_app_access_token('496039947121627','6eefe036302fc56238e8dce3c65ee6c8');
+        //$posts = $this->loadFB('159944650796442', $token);
+    	
+    	
+		//BE SURE to enter your facebook id here
+		$fbid="159944650796442";
+
+		//how may posts to show
+		$fbLimit=10;
+		//variable used to count how many weÕve loaded
+		$fbCount=0;
+
+		//call the function and get the posts from facebook
+		$myPosts=$this->loadFB2($fbid);
+
+
+    	
+    	$response = new Response(json_encode(array('content'=>$myPosts)));
+    	$response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+    
+    function loadFB2($fbID){
+	//facebook feed url
+    $url="http://www.facebook.com/feeds/page.php?id=".$fbID."&format=atom10";
+    
+    //load and setup CURL
+    $c = curl_init();
+    
+    //set options and make it up to look like firefox
+	$userAgent = "Firefox (WindowsXP) - Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.8.1.6) Gecko/20070725 Firefox/2.0.0.6";
+	curl_setopt($c, CURLOPT_USERAGENT, $userAgent);
+	curl_setopt($c, CURLOPT_URL,$url);
+	curl_setopt($c, CURLOPT_FAILONERROR, true);
+	curl_setopt($c, CURLOPT_FOLLOWLOCATION, true);
+	curl_setopt($c, CURLOPT_AUTOREFERER, true);
+	curl_setopt($c, CURLOPT_RETURNTRANSFER,true);
+	curl_setopt($c, CURLOPT_VERBOSE, false);     
+    curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
+    
+    //get data from facebook and decode XML
+    $page = curl_exec($c);
+    //$pxml= new SimpleXMLElement($page);
+
+    //close the connection
+    curl_close($c);
+     
+    //return the data as an object
+    return $page;
+}
+
+    function loadFB($fbID,$myFBToken){
+		//must be https when using an access token
+		$fields = "id,message,picture,link,name,description,type,icon,created_time,from,object_id";
+$limit = 5;
+		$url="https://graph.facebook.com/".$fbID."/feed?access_token=".$myFBToken."&fields=".$fields."";
+		$c = curl_init($url);
+		curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);  
+		//don't verify SSL (required for some servers)
+		curl_setopt($c, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($c, CURLOPT_SSL_VERIFYHOST, false);			
+		$page = json_decode(curl_exec($c));
+		curl_close($c);
+		//$post=reset($page-);
+		return $page;
+	}
+    function get_app_access_token($app_id, $secret) {
+		$url = 'https://graph.facebook.com/oauth/access_token';
+		$token_params = array(
+		    "type" => "client_cred",
+		    "client_id" => $app_id,
+		    "client_secret" => $secret
+		    );
+		return str_replace('access_token=', '', $this->post_url($url, $token_params));
+	}
+    function post_url($url, $params) {
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params, null, '&'));
+		$ret = curl_exec($ch);
+		curl_close($ch);
+		return $ret;
+	  }
+    
+    
 	//////////////////////////////////////////
 	////////////////helpers///////////////////
 	//////////////////////////////////////////

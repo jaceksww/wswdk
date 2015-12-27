@@ -21,8 +21,10 @@ $collection->add('wmws_forums_index', new Route('/rest/forums/index/{catId}', ar
 $collection->add('wmws_forums', new Route('/rest/forums/topics/{forumId}', array(
     '_controller' => 'WMWSBundle:Forum:topics',
 )));
-$collection->add('wmws_forums_posts', new Route('/rest/forums/posts/{topicId}', array(
+$collection->add('wmws_forums_posts', new Route('/rest/forums/posts/{topicId}/{start}/{limit}', array(
     '_controller' => 'WMWSBundle:Forum:posts',
+    'limit' => 20,
+    'start'=>0
 )));
 $collection->add('wmws_forums_addpost', new Route('/rest/forums/addpost', array(
     '_controller' => 'WMWSBundle:Forum:addpost',
@@ -32,6 +34,9 @@ $collection->add('wmws_forums_addtopic', new Route('/rest/forums/addtopic', arra
 )));
 $collection->add('wmws_forums_deletepost', new Route('/rest/forums/deletepost/{postid}', array(
     '_controller' => 'WMWSBundle:Forum:deletepost'
+)));
+$collection->add('wmws_forums_parseiframes', new Route('/rest/forums/parseiframes', array(
+    '_controller' => 'WMWSBundle:Forum:parseiframes'
 )));
 
 $collection->add('wmws_ws', new Route('/rest/ws/index/{type}/{start}/{limit}/{userid}', array(

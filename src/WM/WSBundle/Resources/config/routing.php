@@ -35,6 +35,9 @@ $collection->add('wmws_forums_addtopic', new Route('/rest/forums/addtopic', arra
 $collection->add('wmws_forums_deletepost', new Route('/rest/forums/deletepost/{postid}', array(
     '_controller' => 'WMWSBundle:Forum:deletepost'
 )));
+$collection->add('wmws_forums_parseiframes', new Route('/rest/forums/parseiframes', array(
+    '_controller' => 'WMWSBundle:Forum:parseiframes'
+)));
 
 $collection->add('wmws_ws', new Route('/rest/ws/index/{type}/{start}/{limit}/{userid}', array(
     '_controller' => 'WMWSBundle:Ws:index',
