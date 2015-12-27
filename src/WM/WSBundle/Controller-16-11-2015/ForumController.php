@@ -124,22 +124,8 @@ class ForumController extends Controller
         ->getQuery();
     }
     
-	$forums_topics['topics'] = $query->getResult(Query::HYDRATE_ARRAY);
+	$forums_topics = $query->getResult(Query::HYDRATE_ARRAY);
 	$this->get("app.arrays")->utf8_encode_deep($forums_topics);
-        
-        /*forum name*/
-        $repository_f = $this->getDoctrine()
-        ->getRepository('WMWSBundle:HaForums');
-        $query_f = $repository_f->createQueryBuilder('f')
-		->select("f.forumname,f.description, f.forumid, f.catid")
-		->where('f.forumid = :forumid')
-       ->setParameter('forumid', $forumId)
-        ->getQuery();
-        $forum_params = $query_f->getResult(Query::HYDRATE_ARRAY);
-        
-		$this->get("app.arrays")->utf8_encode_deep($forum_params);
-        $forums_topics['forum_params'] =  $forum_params;
-        /**end**/
         
         
         $response = new Response(json_encode($forums_topics));
@@ -172,7 +158,7 @@ class ForumController extends Controller
 	}
 	
     $query = $repository->createQueryBuilder('fp')
-	->select("f.forumid, f.forumname, ft.topictitle,ft.topicid, ft.userid as topicauthoruserid, fp.userid ,u.displayname, u.avatar,fp.postid, fp.datecreated, fp.body, fp.tmpusername")
+	->select("f.forumid, f.forumname, ft.topictitle,ft.topicid, ft.userid as topicauthoruserid, fp.userid, fp.image ,u.displayname, u.avatar,fp.postid, fp.datecreated, fp.body, fp.tmpusername")
         ->where('fp.topicid = :topicid and fp.deleted = :deleted')
        // ->andWhere('c.reviewed = 1')
         ->setParameter('topicid', $topicId)
@@ -187,33 +173,17 @@ class ForumController extends Controller
         ->getQuery();
     
 	$forums_posts = $query->getResult(Query::HYDRATE_ARRAY);
-	$this->get("app.arrays")->utf8_encode_deep($forums_posts);
 	$new_forums_posts = array();
-	$new_forums_posts['posts'] = array();
 	foreach ( $forums_posts as $post) { // reference
 		//$tmp_post = $post;
 		$body = $post['body'];
 		
 		$post['body'] = $this->get("app.arrays")->bbcode($body);
-		$new_forums_posts['posts'][] = $post;
+		$new_forums_posts[] = $post;
 	}
 	
-	/*topic name*/
-        $repository_t = $this->getDoctrine()
-        ->getRepository('WMWSBundle:HaForumsTopics');
-        $query_t = $repository_t->createQueryBuilder('ft')
-		->select("ft.topictitle,ft.topicid, ft.userid as topicauthoruserid")
-		->where('ft.topicid = :topicid')
-       ->setParameter('topicid', $topicId)
-        ->getQuery();
-        $topic_params = $query_t->getResult(Query::HYDRATE_ARRAY);
-        
-		$this->get("app.arrays")->utf8_encode_deep($topic_params);
-        $new_forums_posts['topic_params'] =  $topic_params;
-        /**end**/
-        
 	//$new_forums_posts = $forums_posts ;
-	
+	$this->get("app.arrays")->utf8_encode_deep($new_forums_posts);
         
         
         $response = new Response(json_encode($new_forums_posts));
