@@ -102,6 +102,7 @@ class UsersController extends Controller
 	    $user->setNotificationsPromo(1);
 	    $user->setNotificationsBlog(1);
 	    $user->setNotificationsShop(1);
+	    //if... TO DO
 	    $user->setNotificationsGame(1);
 	    $user->setPrivacy('V');
 	    $user->setCustom1('');
