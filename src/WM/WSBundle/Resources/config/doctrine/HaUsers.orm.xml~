@@ -51,7 +51,6 @@
     <field name="notificationsPromo" type="boolean" column="notifications_promo" nullable="false"/>
     <field name="notificationsBlog" type="boolean" column="notifications_blog" nullable="false"/>
     <field name="notificationsShop" type="boolean" column="notifications_shop" nullable="false"/>
-    <field name="notificationsGame" type="boolean" column="notifications_game" nullable="false"/>
     <field name="privacy" type="string" column="privacy" length="100" nullable="false"/>
     <field name="resetkey" type="string" column="resetkey" length="32" nullable="true"/>
     <field name="lastlogin" type="datetime" column="lastLogin" nullable="false"/>

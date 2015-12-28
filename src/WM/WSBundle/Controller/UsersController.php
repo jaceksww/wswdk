@@ -94,14 +94,15 @@ class UsersController extends Controller
 	    $user->setSubscribed(0);
 	    $user->setPlan(0);
 	    $user->setCurrency('USD');
-	    $user->setBio('');
+	    $user->setBio('Gracz');
 	    $user->setLanguage('polski');
 	    $user->setPosts(0);
-	    $user->setKudos(0);
+	    $user->setKudos(10);
 	    $user->setNotifications(1);
 	    $user->setNotificationsPromo(1);
 	    $user->setNotificationsBlog(1);
 	    $user->setNotificationsShop(1);
+	    $user->setNotificationsGame(1);
 	    $user->setPrivacy('V');
 	    $user->setCustom1('');
 	    $user->setCustom2('');

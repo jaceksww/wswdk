@@ -228,6 +228,11 @@ class HaUsers
      * @var boolean
      */
     private $notificationsShop;
+    
+    /**
+     * @var boolean
+     */
+    private $notificationsGame;
 
     /**
      * @var string
@@ -1227,6 +1232,7 @@ class HaUsers
     {
         return $this->notifications;
     }
+    
 
     /**
      * Set notificationsPromo
@@ -1296,7 +1302,31 @@ class HaUsers
     {
         return $this->notificationsShop;
     }
+	
+	
+    /**
+     * Set notificationsGame
+     *
+     * @param boolean $notificationsGame
+     * @return HaUsers
+     */
+    public function setNotificationsGame($notificationsGame)
+    {
+        $this->notificationsGame = $notificationsGame;
 
+        return $this;
+    }
+
+    /**
+     * Get notificationsGame
+     *
+     * @return boolean 
+     */
+    public function getNotificationsGame()
+    {
+        return $this->notificationsGame;
+    }
+    
     /**
      * Set privacy
      *
