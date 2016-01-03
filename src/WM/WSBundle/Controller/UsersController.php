@@ -194,11 +194,20 @@ class UsersController extends Controller
         $querystr='';
         if(!empty($_POST['query'])) $querystr = $_POST['query'];
         
+        $wherein='';
+        if(!empty($_POST['wherein'])) $wherein = $_POST['wherein'];
+        
         $repository = $this->getDoctrine()
         ->getRepository('WMWSBundle:HaUsers');
     
-		if($querystr == ''){
+		if($querystr == '' && $wherein==''){
 			$query = $repository->createQueryBuilder('u')
+			->orderBy('u.displayname', 'ASC')
+			->getQuery();
+		}elseif($wherein != ''){
+			$query = $repository->createQueryBuilder('u')
+			->where('u.userid in (:wherein)')
+			->setParameter('wherein', explode(',',$wherein))
 			->orderBy('u.displayname', 'ASC')
 			->getQuery();
 		}else{

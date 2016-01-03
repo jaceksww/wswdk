@@ -102,6 +102,7 @@ class UsersController extends Controller
 	    $user->setNotificationsPromo(1);
 	    $user->setNotificationsBlog(1);
 	    $user->setNotificationsShop(1);
+	    //if... TO DO
 	    $user->setNotificationsGame(1);
 	    $user->setPrivacy('V');
 	    $user->setCustom1('');
@@ -193,11 +194,20 @@ class UsersController extends Controller
         $querystr='';
         if(!empty($_POST['query'])) $querystr = $_POST['query'];
         
+        $wherein='';
+        if(!empty($_POST['wherein'])) $wherein = $_POST['wherein'];
+        
         $repository = $this->getDoctrine()
         ->getRepository('WMWSBundle:HaUsers');
     
-		if($querystr == ''){
+		if($querystr == '' && $wherein==''){
 			$query = $repository->createQueryBuilder('u')
+			->orderBy('u.displayname', 'ASC')
+			->getQuery();
+		}elseif($wherein != ''){
+			$query = $repository->createQueryBuilder('u')
+			->where('u.userid in (:wherein)')
+			->setParameter('wherein', $wherein)
 			->orderBy('u.displayname', 'ASC')
 			->getQuery();
 		}else{
